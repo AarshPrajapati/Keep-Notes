@@ -12,7 +12,7 @@
 <td>Express js (Node js)</td>
 </tr>
 <tr>
-<th>Database<th>
+<th>Database</th>
 <td>MongoDb</td>
 </tr>
 </table>
