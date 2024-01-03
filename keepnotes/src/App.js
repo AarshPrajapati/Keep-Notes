@@ -11,6 +11,7 @@ import Signup from './Components/Signup';
 import Alert from './Components/Alert';
 import DisplayAlert from './Context/Alert/displayalert';
 import Addnote from './Components/Addnote';
+import Profile from './Components/Profile';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route exact path='/' element={<Home/>}></Route>
         <Route exact path='/about' element={<About/>}></Route>
         <Route exact path='/createnote' element={<Addnote/>}></Route>
+        <Route exact path='/Profile' element={<Profile/>}></Route>
         <Route exact path='/Login' element={<Login/>}></Route>
         <Route exact path='/Signup' element={<Signup/>}></Route>
         

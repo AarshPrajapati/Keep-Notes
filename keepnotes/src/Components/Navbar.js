@@ -57,7 +57,10 @@ const Navbar = () => {
              
             </ul>
             <div className="d-flex">{localStorage.getItem('token')?
-           <button className="btn btn-primary mx-2" onClick={Logout}>Logout</button>:
+            <div>
+           <Link className="btn btn-primary mx-2" to='/Profile' role="button">Profile</Link>
+           <button className="btn btn-primary mx-2" onClick={Logout}>Logout</button>
+           </div>:
            <div>
            <Link className="btn btn-primary mx-2" to="/Login" role="button">Login</Link>
            <Link className="btn btn-primary mx-2" to="/Signup" role="button">Sign up</Link>

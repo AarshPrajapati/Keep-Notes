@@ -131,4 +131,50 @@ router.post("/getuser", featchuser, async (req, res) => {
   }
 });
 
+//Route 4 :-Get User Data POST:http://localhost:5000/api/auth/Updateuser Login required
+router.put(
+  "/Updateuser/:id",
+  featchuser,
+  [
+    body("name", "Minumum Lenth of name is 3").isLength({ min: 3 }),
+    body("email", "Enter Valid E-Mail").isEmail(),
+  ],
+  async (req, res) => {
+    //Check the errors exits or not
+    const { name,email } = req.body; //destructuring
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      success=false;
+      return res.status(400).json({ success:success,errors: errors.array() });
+    }
+    try {
+      //Create a new note object
+      const newdetails = {};
+      if (name) {
+        newdetails.name = name;
+      }
+      if (email) {
+        newdetails.email = email;
+      }
+      //Find the User is exisit or not using id
+      let user = await User.findById(req.params.id); //req.params.id=given id in URL
+      if (!user) {
+        success=false;
+        return res.status(404).send({success:success,message:"Not Found"});
+      }
+      user = await User.findByIdAndUpdate(
+        req.params.id, //req.params.id=given id in URL
+        { $set: newdetails },
+        { new: true }
+      ).select("-password");
+      success=true;
+      res.json({success:success, user });
+    } catch (error) {
+      success=false;
+      //console.error(error.message);
+      //status(500)=Server Error Code
+      res.status(500).json({ success:success,error: "server Error", message: error.message });
+    }
+  }
+);
 module.exports = router;

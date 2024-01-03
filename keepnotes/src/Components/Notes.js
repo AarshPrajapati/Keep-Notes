@@ -20,7 +20,7 @@ const Notes = () => {
         navigate('/Login');
     }
    // eslint-disable-next-line
-  },[])
+  },[editnote]) //Usestate will again run when editnote function is called
   //const ref=useRef(); //useref is used for get the clicked card data
   const [unotes,Setunotes]=useState({Utitle:"",Udescription:"",Utag:"",Uid:""}) //state for Update note
 
@@ -34,7 +34,8 @@ const Notes = () => {
     
   }
 
-  const UpdateNote=()=>{
+  const UpdateNote=(e)=>{
+    e.preventDefault();
     editnote(unotes.Utitle,unotes.Udescription,unotes.Utag,unotes.Uid);
     //refClose.current.click();
   }
