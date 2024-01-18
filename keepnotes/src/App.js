@@ -26,7 +26,7 @@ function App() {
       <Navbar/>
       <Alert/>
 
-      <div className="container">
+    
       <Routes>
         <Route exact path='/' element={<Home/>}></Route>
         <Route exact path='/about' element={<About/>}></Route>
@@ -36,7 +36,6 @@ function App() {
         <Route exact path='/Signup' element={<Signup/>}></Route>
         
       </Routes>
-      </div>
       </BrowserRouter>
       
       </NoteState>

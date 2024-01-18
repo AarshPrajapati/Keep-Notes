@@ -1,38 +1,232 @@
-.App {
-  text-align: center;
+*{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Navbar Css */
+.navbar{
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+    background-color: whitesmoke;
+    /* background-color: #404040; */
+    color: #404040;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.navitems1{
+    height: 60px;
+    width: 60%;
+    /* border: 1px solid blue; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: flex-start;
+}
+.logo{
+    font-size: 1.3rem !important;
+    padding: 17px 15px !important;
+}
+.nav1item{
+    padding: 20px 15px;
+    margin-left: 3%;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.nav1item::before{
+    position: relative;
+    border: 2px solid #4681f4;
+    content: "";
+    width: 100%;
+    bottom: -34px;
+    left: -3px;
+    display: block;
+    transform: scaleX(0);
+    transition: all 0.6s ease;
+    transform-origin: left;
+}
+.nav1item:hover::before{
+    transform: scaleX(1);
+}
+.nav1item.active::before{
+    transform: scaleX(1);
+}
+.nav1item::after{
+    top: -3px;
+    position: relative;
+}
+.navhome::after{
+    content: ' Home';
+}
+.navcreate::after{
+    content: ' Create Note';
+}
+.navabout::after{
+    content: ' About';
+}
+/* .nav1item:hover{
+    border-bottom: 4px solid #4681f4;
+} */
+.navitems2{
+    width: 40%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+.nav2item{
+    margin-right: 7%;
+    align-items: center;
+    justify-content: center;
+    display: flex; 
+    background-color: #5783db;
+    color: white;
+    box-shadow: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 40px;
+    width: 90px;
+    border-radius: 7px;
+    border: 0;
+}
+.nav2item:hover{
+    background-color: #4681f4;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+ /* Login form  */
+
+ .container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+ }
+ .loginform{
+    width: 460px;
+    height: 500px;
+    margin-top: 3%;
+    text-align: left;
+    padding: 50px 70px 70px 30px;
+    border: 1px #ddd solid;
+    background-color: #fff;
+    border-radius: 8px;
+ }
+ h2{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+ }
+label,input{
+    font-size: 1rem;
+    font-weight: 400;
+    display: block;
+}
+label,input[type=submit]{
+    margin-top: 20px;
+    font-weight: 500;
+}
+input{
+    border-radius: 5px;
+    height: 36px;
+    width: 100%;
+    padding-left: 5px;
+    margin-top: 10px;
+    border: 2px solid #9a9a9a;
+}
+.input:focus{
+    border: 20px solid var(--primary) !important;
+}
+.psign{
+    text-align: center;
+    margin-top: 40px;
+}
+.pasign{
+  color: blue;
+  text-decoration: underline;
+}
+.btnlogin{
+    width: 100%;
+    height: 30px;
+}
+
+/* Signup Form  */
+
+.Signupform{
+    width: 460px;
+    height: 600px;
+    margin-top: 3%;
+    text-align: left;
+    padding: 50px 70px 70px 30px;
+    border: 1px #ddd solid;
+    background-color: #fff;
+    border-radius: 8px;
+ }
+    /* For mobile phones: */
+@media only screen and (max-width:790px){
+    .logo{
+        display: none;
+    }
+
+    .loginform{
+        border: none;
+    }
+    .Signupform{
+        border: none;
+    }
+}
+@media only screen and (max-width: 880px) {
+    /* Navbar css  */
+    .navhome::after{
+        content: ' ';
+        /* top: -3px;
+        position: relative; */
+    }
+    .navcreate::after{
+        content: '';
+        
+    }
+    .navabout::after{
+        content: '';
+    }
+    .logo{
+        font-size: 0.5rem;
+    }
+
+    .nav2item{
+        margin-right: 7%;
+        background-color: #5783db;
+        color: white;
+        box-shadow: 0;
+        font-size: 0.7rem;
+        font-weight: 500;
+        height: 30px;
+        width: 90px;
+        border-radius: 7px;
+        border: 0;
+    }
+
+    .nav1item{
+        padding: 20px 15px;
+        margin-left: 10%;
+        font-size: 1rem;
+        font-weight: 500;
+    
+    }
+
+    .btnlogin{
+        width: 100%;
+        height: 30px;
+    }
+
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+
