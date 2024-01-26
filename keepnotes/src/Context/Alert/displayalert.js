@@ -3,7 +3,7 @@ import React,{useState} from "react";
 
 const DisplayAlert = (props) => { 
 
-    const [alert,setalert]=useState({mes:"hh",type:'sas'});
+    const [alert,setalert]=useState();
     const ShowAlert=(message,type)=>{
         setalert({
           msg:message,

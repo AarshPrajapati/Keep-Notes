@@ -7,7 +7,16 @@ const Noteitems = (props) => {
   const { notes ,Fillnotes} = props;
   return (
     <>
-      <div className="card-group col-md-4 my-3" height="300px">
+    <div className="col">
+                <div className="title">{notes.title}</div>
+                <div className="tag">{notes.tag}</div>
+                <div className="description">{notes.description}</div>
+                <div className="funct">
+                    <div className="funedit" onClick={()=>{Fillnotes(notes)}}><img  alt="editicon" src="Icons/Edit.png" width="20px" /></div>
+                    <div className="fundelete" onClick={() => { deletenote(notes._id); }}><img alt="deleteicon" src="Icons/trash.png" width="20px" /></div>
+                </div>
+      </div>
+      {/* <div className="card-group col-md-4 my-3" height="300px">
         <div className="card">
        
           <div className=" card-header">{notes.title}<span className="d-inline-flex float-end badge text-bg-primary">{notes.tag}</span></div>
@@ -28,7 +37,7 @@ const Noteitems = (props) => {
             ></i>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -28,62 +28,79 @@ const Addnote = () => {
     refclear.current.click();
   }
   return (
-    <div className="container my-3">
-      <h3>Create Note</h3>
-      <form className="my-4" onSubmit={createnote}>
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">
-            Title
-          </label>
-          <input
-            type="text"
-            placeholder='Enter Title'
-            className="form-control"
-            id="title"
-            name="title"
-            aria-describedby="emailHelp"
-            onChange={onchange}
-            minLength='3'
-            required
-          />
+    <div>
+        <div className="container">
+            <form className="CreateForm" onSubmit={createnote}>
+                <h2>Create Note</h2>
+                <label htmlFor="title" name="title" id="title">Title</label>
+                <input type="text" name="title"  onChange={onchange} minLength='3' required />
+                <label htmlFor="description" name="description" id="description">Description</label>
+                <input type="text" name="description"  onChange={onchange} minLength='5' required  />
+                <label htmlFor="tag" name="tag" id="tag">Tag</label>
+                <input type="text" name="tag"  onChange={onchange} minLength='3' required  />
+                <input type="reset" className="btnreset" value="Reset" ref={refclear} />
+                <input type="submit" className="btncreatenote nav2item" value="Create Note" />
+            </form>
         </div>
-        <div className="mb-3">
-          <label htmlFor="description" className="form-label">
-            Description
-          </label>
-          <input
-            type="text"
-            placeholder='Enter Description'
-            name="description"
-            className="form-control"
-            id="description"
-            onChange={onchange}
-            required
-            minLength='5'
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="tag" className="form-label">
-            Tag
-          </label>
-          <input
-            type="tag"
-            placeholder='Enter Tag'
-            name="tag"
-            className="form-control"
-            id="tag"
-            onChange={onchange}
-            required
-            minLength='3'
-          />
-        </div>
-        <input className='d-none' type="reset" value="Reset" ref={refclear}/>
-        <button type="submit"  className="btn btn-primary" >
-        {/* <button type="submit" disabled={notes.title<3||notes.description<5||notes.tag<3} className="btn btn-primary" > */}
-          Create Note
-        </button>
-      </form>
     </div>
+
+
+    // <div className="container my-3">
+    //   <h3>Create Note</h3>
+    //   <form className="my-4" onSubmit={createnote}>
+    //     <div className="mb-3">
+    //       <label htmlFor="title" className="form-label">
+    //         Title
+    //       </label>
+    //       <input
+    //         type="text"
+    //         placeholder='Enter Title'
+    //         className="form-control"
+    //         id="title"
+    //         name="title"
+    //         aria-describedby="emailHelp"
+    //         onChange={onchange}
+    //         minLength='3'
+    //         required
+    //       />
+    //     </div>
+    //     <div className="mb-3">
+    //       <label htmlFor="description" className="form-label">
+    //         Description
+    //       </label>
+    //       <input
+    //         type="text"
+    //         placeholder='Enter Description'
+    //         name="description"
+    //         className="form-control"
+    //         id="description"
+    //         onChange={onchange}
+    //         required
+    //         minLength='5'
+    //       />
+    //     </div>
+    //     <div className="mb-3">
+    //       <label htmlFor="tag" className="form-label">
+    //         Tag
+    //       </label>
+    //       <input
+    //         type="tag"
+    //         placeholder='Enter Tag'
+    //         name="tag"
+    //         className="form-control"
+    //         id="tag"
+    //         onChange={onchange}
+    //         required
+    //         minLength='3'
+    //       />
+    //     </div>
+    //     <input className='d-none' type="reset" value="Reset" ref={refclear}/>
+    //     <button type="submit"  className="btn btn-primary" >
+    //     {/* <button type="submit" disabled={notes.title<3||notes.description<5||notes.tag<3} className="btn btn-primary" > */}
+    //       Create Note
+    //     </button>
+    //   </form>
+    // </div>
   );
 };
 

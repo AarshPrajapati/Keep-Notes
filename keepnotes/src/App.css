@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+
 /* Navbar Css */
 .navbar{
     height: 60px;
@@ -167,6 +168,192 @@ input{
     background-color: #fff;
     border-radius: 8px;
  }
+
+ /* Alert  */
+.palert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ .alert{
+    position: absolute;
+    width: auto;
+    background-color: #4681f4;
+    color: black;
+    border-radius: 100px;
+    bottom: 5%;
+    padding: 10px 40px;
+ }
+
+ /* Create Note  */
+.CreateForm{
+    width: 90%;
+    margin-top: 3%;
+    padding: 20px;
+}
+
+.CreateForm input,label{
+    width: 50%;
+    font-size: 1rem;
+}
+
+.btnreset{
+    display: none;
+}
+.btncreatenote{
+    cursor: pointer;
+    width: 150px !important;
+}
+
+
+/* Your Notes  */
+.ynoteparent{
+    height: 100vh;
+    overflow-x:hidden ;
+}
+.ynote{
+    margin:50px 0 -20px 45px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+.row{
+    margin-top: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100vw;
+    flex-wrap: wrap;
+    /* opacity: 0.5; */
+}
+.col{
+    width: 25%;
+    height: 100%;
+    padding:20px 20px;
+    border: 2px solid black;
+    margin: 2%;
+    border: 2px solid whitesmoke;
+    border-radius: 10px;
+}
+
+.title{
+    width: 100%;
+    height: 35px;
+    text-align: left;
+    border-bottom: 2px solid #AAAAAA;
+}
+.tag{
+    position: relative;
+    top: -33px;
+    left: 80%;
+    width: fit-content;
+    padding: 5px;
+    background-color: #4681f4;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+.description{
+    height: 50px;
+    overflow: auto;
+}
+.funct div{
+    display: inline;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.funedit::after{
+    content: "Edit";
+    top: -3px;
+    left: 3px;
+    position: relative;
+}
+.fundelete::after{
+    content: "Delete";
+    top: -3px;
+    left: 3px;
+    position: relative;
+}
+
+/* Update Note Form  */
+.unote{
+    position: absolute;
+    opacity: 0;
+    display: none;  /*display: flex on update button click; */
+    justify-content: center;
+    /* align-items: center; */
+    height: 80vh;
+    width: 100vw;
+}
+.updateform{
+    /* margin-top: -100px; */
+    border: 2px solid rgb(162, 157, 157);
+    height: fit-content;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 1;
+    width: 40%;
+    padding:40px;
+}
+.upbtn{
+    display: flex;
+}
+.btncancle{
+    margin-top: 20px;
+    cursor: pointer;
+}
+.imgclose{
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 9%;
+    right: 34%;
+    cursor: pointer;
+
+}
+
+/* footer  */
+footer{
+    height: fit-content;
+    background-color:rgb(81, 79, 79) ;
+    width: 100vw;
+    bottom: 0;
+    color: white;
+    padding: 50px;
+}
+
+ .foot h2{
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+ }
+ .foot{
+    display: flex;
+    justify-content: space-around;
+ }
+.footitem{
+    color: white;
+    cursor: pointer;
+}
+.footitem:hover{
+    color: #4681f4;
+}
+.foot div{
+    width: 15%;
+}
+.foot ul{
+    padding-left: 0px;
+ }
+.foot li{
+    margin-bottom: 8px;
+    text-decoration: none;
+    display: block;
+}
+.footlogo{
+    margin-left:80px ;
+    margin-top: -18px;
+    padding: 7px;
+    margin-bottom: 22px;
+    cursor: pointer;
+}
     /* For mobile phones: */
 @media only screen and (max-width:790px){
     .logo{
@@ -179,6 +366,19 @@ input{
     .Signupform{
         border: none;
     }
+    /* footer  */
+    .foot{
+        display: block;
+        /* justify-content: space-around; */
+     }
+     .foot div{
+        width: 100%;
+    }
+    .foot h2{
+        font-size: 1.5rem;
+        margin-top: 20px;
+        color: #5783db;
+     }
 }
 @media only screen and (max-width: 880px) {
     /* Navbar css  */
@@ -223,7 +423,43 @@ input{
         width: 100%;
         height: 30px;
     }
+    /* Alert  */
+    .alert{
+        bottom: 10%;
+    }
 
+    /* Create Note  */
+
+    .CreateForm input,label{
+        width: 90%;
+        font-size: 1rem;
+    }
+        /* Create Note  */
+
+        .CreateForm input,label{
+            width: 90%;
+            font-size: 1rem;
+        }
+    
+        /* Your Notes  */
+    .col{
+        width: 90%;
+        height: 100%;
+        padding:20px 20px;
+        border: 2px solid black;
+        margin: 2%;
+        border: 2px solid whitesmoke;
+        border-radius: 10px;
+    }
+    .updateform{
+        width: 90%;
+    }
+    /* updateform close img  */
+    .imgclose{
+        right: 12%;
+    
+    }
+    
   }
 
 

@@ -12,6 +12,8 @@ import Alert from './Components/Alert';
 import DisplayAlert from './Context/Alert/displayalert';
 import Addnote from './Components/Addnote';
 import Profile from './Components/Profile';
+import Footer from './Components/Footer';
+
 
 
 function App() {
@@ -34,8 +36,9 @@ function App() {
         <Route exact path='/Profile' element={<Profile/>}></Route>
         <Route exact path='/Login' element={<Login/>}></Route>
         <Route exact path='/Signup' element={<Signup/>}></Route>
-        
       </Routes>
+
+      <Footer/>
       </BrowserRouter>
       
       </NoteState>

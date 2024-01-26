@@ -5,8 +5,8 @@ import Notes from "./Notes";
 const Home = () => {
   return (
     <>
-      <div>
-        <h3>Your Notes</h3>
+      <div className="ynoteparent">
+      <h3 className="ynote">Your Notes</h3>
         <Notes/>
       </div>
       </>
