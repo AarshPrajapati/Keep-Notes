@@ -5,6 +5,9 @@ const Noteitems = (props) => {
   const context = useContext(NoteContext);
   const { deletenote } = context;
   const { notes ,Fillnotes} = props;
+  let date= new Date(notes.reminder);
+  let rm = `${date.toLocaleDateString()} , ${date.getHours()}:${date.getMinutes()}`;
+  
   return (
     <>
     <div className="col">
@@ -14,6 +17,7 @@ const Noteitems = (props) => {
                 <div className="funct">
                     <div className="funedit" onClick={()=>{Fillnotes(notes)}}><img  alt="editicon" src="Icons/Edit.png" width="20px" /></div>
                     <div className="fundelete" onClick={() => { deletenote(notes._id); }}><img alt="deleteicon" src="Icons/trash.png" width="20px" /></div>
+                    <div class="drmdate">{rm}</div>
                 </div>
       </div>
       {/* <div className="card-group col-md-4 my-3" height="300px">

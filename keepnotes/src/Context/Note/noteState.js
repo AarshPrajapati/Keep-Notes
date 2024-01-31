@@ -33,7 +33,7 @@ const NoteState = (props) => {
   };
 
   //Add note
-  const addnote = async (title, description, tag) => {
+  const addnote = async (title, description, tag,reminder) => {
     //API call
     const AddNote = host + "/api/notes/addnote";
     try {
@@ -43,7 +43,7 @@ const NoteState = (props) => {
           "Content-Type": "application/json",
           "auth-token":localStorage.getItem('token')
         },
-        body: JSON.stringify({ title, description, tag }),
+        body: JSON.stringify({ title, description,reminder, tag }),
       });
       const add= await response.json();
       if(add.success){
@@ -94,7 +94,7 @@ const NoteState = (props) => {
     // Setnotes(newnote);
   };
   //Edit Note
-  const editnote =async (title,description,tag,id) => {
+  const editnote =async (title,description,reminder,tag,id) => {
     //console.log(id,title,tag,description);
     //API call
     
@@ -106,7 +106,7 @@ const NoteState = (props) => {
           "Content-Type": "application/json",
           "auth-token":localStorage.getItem('token')
         },
-        body: JSON.stringify({ title, description, tag }),
+        body: JSON.stringify({ title, description, reminder, tag }),
       });
       const up= await response.json();
       if(up.success){

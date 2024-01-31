@@ -13,6 +13,7 @@ import DisplayAlert from './Context/Alert/displayalert';
 import Addnote from './Components/Addnote';
 import Profile from './Components/Profile';
 import Footer from './Components/Footer';
+import Scrolltop from './Components/Scrolltop';
 
 
 
@@ -25,6 +26,7 @@ function App() {
     <NoteState> 
       
       <BrowserRouter>
+      <Scrolltop/>
       <Navbar/>
       <Alert/>
 

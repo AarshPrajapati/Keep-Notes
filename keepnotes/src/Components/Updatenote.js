@@ -3,6 +3,16 @@ import React from "react";
 
 const Updatenote = (props) => {
   const {unotes,onUchange,UpdateNote,unotestyle,close}=props;
+  // let rm=new Date(unotes.Ureminder);
+  let date=new Date(unotes.Ureminder);
+  const year =date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  // Create the formatted date string
+  const rm = `${year}-${month}-${day}T${hours}:${minutes}`;
 
   return (
 
@@ -14,6 +24,8 @@ const Updatenote = (props) => {
                 <input type="text" name="Utitle" onChange={onUchange} value={unotes.Utitle} />
                 <label htmlFor="description" name="Udescription" id="Udescription">Description</label>
                 <input type="text" name="Udescription" onChange={onUchange} value={unotes.Udescription} />
+                <label htmlFor="reminder" name="Ureminder" id="Ureminder">Reminder</label>
+                <input type="datetime-local" className='rmdate' name="Ureminder" value={rm}  onChange={onUchange} required  />
                 <label htmlFor="tag" name="Utag" id="Utag">Tag</label>
                 <input type="text" name="Utag" onChange={onUchange} value={unotes.Utag} />
                 <img className="imgclose" alt="imgclose" src="Icons/close.png" onClick={close}/>

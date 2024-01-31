@@ -204,8 +204,12 @@ input{
     cursor: pointer;
     width: 150px !important;
 }
-
-
+.rmdate{
+    padding-right: 10px;
+}
+#reminder p{
+    display: inline;
+}
 /* Your Notes  */
 .ynoteparent{
     height: 100vh;
@@ -272,6 +276,18 @@ input{
     top: -3px;
     left: 3px;
     position: relative;
+}
+
+.drmdate{
+    border-radius: 20px;
+    font-size: 13px;
+    background-color: cornflowerblue;
+    bottom: 4px;
+    /* left: 80px; */
+    cursor: auto !important;
+    position: relative;
+    color: whitesmoke;
+    padding: 5px;
 }
 
 /* Update Note Form  */
@@ -353,6 +369,29 @@ footer{
     padding: 7px;
     margin-bottom: 22px;
     cursor: pointer;
+}
+
+/* Profile  */
+.profilecontainer{
+    height: 80vh;
+    margin:70px;
+}
+.profileform{
+    width: 50%;
+}
+
+/* For tablet  */
+
+@media only screen and (max-width:1130px){
+    .col{
+        width: 40%;
+        height: 100%;
+        padding:20px 20px;
+        border: 2px solid black;
+        margin: 2%;
+        border: 2px solid whitesmoke;
+        border-radius: 10px;
+    }
 }
     /* For mobile phones: */
 @media only screen and (max-width:790px){
@@ -459,7 +498,14 @@ footer{
         right: 12%;
     
     }
-    
+      /* Profile  */
+      .profilecontainer{
+        height: 80vh;
+        margin:50px;
+    }
+    .profileform{
+        width: 90%;
+    }
   }
 
 

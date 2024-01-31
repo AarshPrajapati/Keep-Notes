@@ -8,7 +8,7 @@ const Addnote = () => {
   const {addnote}=context;
   const refclear=useRef(null);
   const navigate=useNavigate();
-  const [notes,Setnotes]=useState({title:"",description:"",tag:""})
+  const [notes,Setnotes]=useState({title:"",description:"",tag:"",reminder:""})
 
   useEffect(() => {
     if(!localStorage.getItem('token'))
@@ -23,7 +23,7 @@ const Addnote = () => {
   }
   const createnote=(e)=>{
     e.preventDefault();
-    addnote(notes.title,notes.description,notes.tag);
+    addnote(notes.title,notes.description,notes.tag,notes.reminder);
     navigate('/');
     refclear.current.click();
   }
@@ -36,6 +36,8 @@ const Addnote = () => {
                 <input type="text" name="title"  onChange={onchange} minLength='3' required />
                 <label htmlFor="description" name="description" id="description">Description</label>
                 <input type="text" name="description"  onChange={onchange} minLength='5' required  />
+                <label htmlFor="reminder" name="reminder" id="reminder">Reminder <p>(You will get Notified 10minute before about this note via e-mail)</p></label>
+                <input type="datetime-local" className='rmdate' name="reminder"  onChange={onchange} required  />
                 <label htmlFor="tag" name="tag" id="tag">Tag</label>
                 <input type="text" name="tag"  onChange={onchange} minLength='3' required  />
                 <input type="reset" className="btnreset" value="Reset" ref={refclear} />

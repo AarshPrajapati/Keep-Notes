@@ -27,10 +27,11 @@ router.post(
     body("description", "Minumum Length of Desciption is 5").isLength({
       min: 5,
     }),
+    body("reminder","Reminder date is Required").notEmpty(),
   ],
   async (req, res) => {
     //Check the errors exits or not
-    const { title, description, tag } = req.body; //destructuring
+    const { title, description, tag ,reminder } = req.body; //destructuring
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       success=false
@@ -38,10 +39,13 @@ router.post(
     }
 
     try {
+      const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
+      // rmdate=rmdate.toISOString();
       const note = new Note({
         title,
         description,
         tag,
+        reminder: rmdate,
         user: req.user.id,
       });
       const savenote = await note.save();
@@ -65,10 +69,11 @@ router.put(
     body("description", "Minumum Length of Desciption is 5").isLength({
       min: 5,
     }),
+    body("reminder","Reminder date is Required").notEmpty(),
   ],
   async (req, res) => {
     //Check the errors exits or not
-    const { title, description, tag } = req.body; //destructuring
+    const { title, description,reminder, tag } = req.body; //destructuring
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       success=false;
@@ -85,6 +90,9 @@ router.put(
       }
       if (tag) {
         newNote.tag = tag;
+      }
+      if (reminder) {
+        newNote.reminder = reminder;
       }
       //Find the note is exisit or not using id
       let note = await Note.findById(req.params.id); //req.params.id=given id in URL

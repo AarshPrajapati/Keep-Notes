@@ -14,6 +14,10 @@ const NoteSchema = new Schema({
         type:String,
         require:true
     },
+    reminder:{
+        type:Date,
+        require:true
+    },
     tag:{
         type:String,
         default:'General'
@@ -22,6 +26,6 @@ const NoteSchema = new Schema({
         type:Date,
         default:Date.now
     }
-  });
+  },{ timestamps: { currentTime: () => new Date() }, toJSON: { getters: true } });
 
 module.exports=mongoose.model('note',NoteSchema)

@@ -31,7 +31,12 @@ const Profile = () => {
         Setuserinfo({...userinfo,[e.target.name]:e.target.value})
       }
     useEffect(() => {
+      if(localStorage.getItem('token')){
         getuser();
+      }
+      else{
+        navigate('/Login');
+      }
        // eslint-disable-next-line
       },[])
 
@@ -64,9 +69,21 @@ const Profile = () => {
        }
   return (
     <>
-      <form className="container" onSubmit={updateprofile}>
+    <div className="profilecontainer">
+        <h2>Profile</h2>
+        <form className="profileform" onSubmit={updateprofile}>
+                <label className="lb" htmlFor="Name" >Name</label>
+                <input type="text" name="name" id="name" value={userinfo.name}  onChange={onchange}/>
+                <label className="lb" htmlFor="email">Email address</label>
+                <input type="email" name="email"  id="email" value={userinfo.email} onChange={onchange}/>
+                <label className="lb" htmlFor="date">Joining Date</label>
+                <input type="date" name="date" value={userinfo.date} id="date" disabled/>
+                <input type="submit" className="btnlogin nav2item" value="Update"/>
+        </form>
+    </div>
+      {/* <form className="container" onSubmit={updateprofile}>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">
+          <label htmlhtmlFor="name" className="form-label">
             Name
           </label>
           <input
@@ -80,7 +97,7 @@ const Profile = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
+          <label htmlhtmlFor="email" className="form-label">
             Email
           </label>
           <input
@@ -93,7 +110,7 @@ const Profile = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="date" className="form-label">
+          <label htmlhtmlFor="date" className="form-label">
             Joined Date
           </label>
           <input disabled type="date" name="date" className="form-control" value={userinfo.date} id="date" />
@@ -101,7 +118,7 @@ const Profile = () => {
         <button type="submit" className="btn btn-primary">
           Update
         </button>
-      </form>
+      </form> */}
     </>
   );
 };
