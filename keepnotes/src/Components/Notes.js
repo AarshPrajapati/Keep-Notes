@@ -3,9 +3,10 @@ import NoteContext from '../Context/Note/noteContext'
 import Noteitems from './Noteitems';
 import Updatenote from './Updatenote';
 import nonotes from './Sorry No Notes.gif'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Notes = () => {
+  const location=new useLocation();
     const context=useContext(NoteContext);
   const {notes,featchnote,editnote}=context;
   const navigate=useNavigate();
@@ -20,7 +21,7 @@ const Notes = () => {
         navigate('/Login');
     }
    // eslint-disable-next-line
-  },[editnote]) //Usestate will again run when editnote function is called
+  },[editnote,location]) //Usestate will again run when editnote function is called
   //const ref=useRef(); //useref is used for get the clicked card data
   const [unotes,Setunotes]=useState({Utitle:"",Udescription:"",Ureminder:"",Utag:"",Uid:""}) //state for Update note
   const [unotestyle,Setunotestyle]=useState({opacity:0,display:"none"});
@@ -45,16 +46,26 @@ const Notes = () => {
   }
   const UpdateNote=(e)=>{
     e.preventDefault();
-    Setunotestyle(null);
-    Setrowstyle(null);
+  
+    const currentdate=new Date();
+    const reminder=new Date(unotes.Ureminder);
+    if(reminder>currentdate)
+    {
+      Setunotestyle(null);
+      Setrowstyle(null);
     editnote(unotes.Utitle,unotes.Udescription,unotes.Ureminder,unotes.Utag,unotes.Uid);
     //refClose.current.click();
+    }
+    else
+    {
+      alert('Please select the date grather than current date');
+    }
   }
   return (
     <>
     <Updatenote  close={close} unotestyle={unotestyle} unotes={unotes} onUchange={onUchange} UpdateNote={UpdateNote}/>
     {notes.length===0 &&
-    <div className='text-center'>
+    <div className='nonotes'>
         <img src={nonotes} width="20%" alt='Loading'/>
         </div>
     }

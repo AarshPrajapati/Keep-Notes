@@ -5,8 +5,11 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const featchuser = require("../middleware/featchuser");
+const Email = require("../models/email");
+const nodemailer = require('nodemailer');
 
-const JWT_SECRET = "Aarsh";
+
+const JWT_SECRET = process.env.JWT_SEC;
 //Useing Environment Variable
 // let JWT_SECRET = process.env.JWT_SEC
 let success=false
@@ -125,13 +128,13 @@ router.post("/getuser", featchuser, async (req, res) => {
     success=true;
   } catch (error) {
     console.error(error.message);
-    success=falsel
+    success=false;
     //status(500)=Server Error Code
     res.status(500).json({success:success,error: "server Error", message: error.message });
   }
 });
 
-//Route 4 :-Get User Data POST:http://localhost:5000/api/auth/Updateuser Login required
+//Route 4 :-Update User Data Put:http://localhost:5000/api/auth/Updateuser Login required
 router.put(
   "/Updateuser/:id",
   featchuser,
@@ -177,4 +180,55 @@ router.put(
     }
   }
 );
+
+//Route 5 :-Verify Email by sending otp Put:http://localhost:5000/api/auth/verifyemail Login Does not required
+
+router.post('/verifyemail', async (req, res) => {
+    
+  const { to } = req.body;
+  // Create a Nodemailer transporter
+  
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      // host: "smtp.example.com",
+      // port: 587,
+      // secure: false,
+      auth: {
+        user: process.env.EMAIL_ADD,
+        pass: process.env.EMAIL_APP_PASS
+      }
+    });
+
+    const otp=Math.floor(1000+Math.random()*9000);  //Genrate 4 digit OTP
+    const email=await Email.findOneAndUpdate({email:to},{otp:otp},{new:true}); //update the otp with new one if alredy have one
+    if(!email){
+        email=await Email.create({              //Store that OTP with email in Database
+            email:to,
+            otp:otp
+        });
+    }
+    // Setup email data
+    const mailOptions = {
+      from:  'Keep-Notes ' + process.env.EMAIL_ADD, //`Keep-Notes  ${process.env.EMAIL_ADD}`,
+      to:to,
+      subject:'OTP',
+      html:'<h2>Your OTP for Verify Email </h2><h1 style="text-align:center">' + otp +'</h1>'
+    };
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        success=false;
+        return res.status(500).send({success:success,message:error.toString()});
+      }
+      success=true;
+      res.status(200).send({success:success,message:'Email sent: ' + info.response});
+    }); 
+  } catch (error) {
+    success=false;
+    res.status(500).json({ success:success,error: "server Error", message: error.message });
+  }
+});
+
+
 module.exports = router;

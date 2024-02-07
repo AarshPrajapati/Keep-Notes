@@ -54,7 +54,10 @@ const Login = () => {
                     <input type="submit" className="btnlogin nav2item" value="Login" />
                 </form>
                 
-            <p className="psign">Don't have an Account? <Link to="/Signup" className="pasign">Signup</Link></p>
+            <p className="psign">
+            <Link to="/Forgetpassword" class="fpass pasign">Forget Password</Link>       
+            Don't have an Account? <Link to="/Signup" className="pasign">Signup</Link>
+            </p>
             </div>
         </div>
     // <div className="loginmain">

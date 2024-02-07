@@ -26,6 +26,6 @@ const NoteSchema = new Schema({
         type:Date,
         default:Date.now
     }
-  },{ timestamps: { currentTime: () => new Date() }, toJSON: { getters: true } });
+  });
 
 module.exports=mongoose.model('note',NoteSchema)

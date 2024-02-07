@@ -39,13 +39,13 @@ router.post(
     }
 
     try {
-      const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
+      // const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
       // rmdate=rmdate.toISOString();
       const note = new Note({
         title,
         description,
         tag,
-        reminder: rmdate,
+        reminder: reminder,
         user: req.user.id,
       });
       const savenote = await note.save();
@@ -92,6 +92,7 @@ router.put(
         newNote.tag = tag;
       }
       if (reminder) {
+        // const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
         newNote.reminder = reminder;
       }
       //Find the note is exisit or not using id

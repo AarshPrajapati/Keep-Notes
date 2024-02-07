@@ -151,6 +151,11 @@ input{
   color: blue;
   text-decoration: underline;
 }
+.fpass{
+    display: block;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
 .btnlogin{
     width: 100%;
     height: 30px;
@@ -168,7 +173,38 @@ input{
     background-color: #fff;
     border-radius: 8px;
  }
+ .emailverify{
+    position: relative;
+    float: right;
+    right: 5px;
+    bottom: 31px;
+    color: blue;
+    padding: 3px;
+    cursor: pointer
+ }
+ .emailverify:hover{
+    border: 1px solid rgb(82, 82, 82);
+    border-radius: 10px;
+ }
+ .sotp{
+    transition: all 1s ease;
+}
+/* Forget Password Form  */
+.fpassform{
+    height: 400px;
+ }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
  /* Alert  */
 .palert{
     display: flex;
@@ -179,7 +215,7 @@ input{
     position: absolute;
     width: auto;
     background-color: #4681f4;
-    color: black;
+    color: white;
     border-radius: 100px;
     bottom: 5%;
     padding: 10px 40px;
@@ -211,6 +247,10 @@ input{
     display: inline;
 }
 /* Your Notes  */
+.nonotes{
+    margin-top:30px;
+    text-align: center;
+}
 .ynoteparent{
     height: 100vh;
     overflow-x:hidden ;
@@ -227,6 +267,7 @@ input{
     justify-content: flex-start;
     width: 100vw;
     flex-wrap: wrap;
+
     /* opacity: 0.5; */
 }
 .col{

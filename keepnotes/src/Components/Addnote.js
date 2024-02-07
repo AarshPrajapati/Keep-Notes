@@ -1,9 +1,9 @@
 import React ,{useContext, useEffect, useRef, useState} from 'react'
 import NoteContext from '../Context/Note/noteContext'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Addnote = () => {
-
+  const location=useLocation();
   const context=useContext(NoteContext);
   const {addnote}=context;
   const refclear=useRef(null);
@@ -16,16 +16,24 @@ const Addnote = () => {
       navigate('/Login');
     }
    // eslint-disable-next-line
-  },[])
+  },[location])
 
   const onchange=(e)=>{
     Setnotes({...notes,[e.target.name]:e.target.value})
   }
   const createnote=(e)=>{
     e.preventDefault();
-    addnote(notes.title,notes.description,notes.tag,notes.reminder);
-    navigate('/');
-    refclear.current.click();
+    const currentdate=new Date();
+    const reminder=new Date(notes.reminder);
+    if(reminder>currentdate){
+      addnote(notes.title,notes.description,notes.tag,notes.reminder);
+      navigate('/');
+      refclear.current.click();
+    }
+    else{
+      alert('Please select the date grather than current date');
+    }
+
   }
   return (
     <div>

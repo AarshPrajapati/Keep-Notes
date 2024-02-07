@@ -1,29 +1,44 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import alertContext from "../Context/Alert/alertContext";
+import emailContext from "../Context/Email/emailContext";
+import authContext from "../Context/Authentication/AuthContext";
 
 const Signup = () => {
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    cpassword: "",
+    otp: "",
   });
-  const context=useContext(alertContext);
-  const {ShowAlert}=context;
+  const [inputotp,Setinputotp]=useState(false);
+  const [isDisabled, setisDisabled] = useState(false);
+  const [otpdisable,Setotpdisable]=useState(false);
+  const alert=useContext(alertContext);
+  const {ShowAlert}=alert;
+  const otpcontext=useContext(emailContext);
+  const {Checkotp,Checkemail}=otpcontext;
+  const auth=useContext(authContext);
+  const {verifyemail}=auth;
+
+
   let navigate = useNavigate();
-  const { name, email, password, cpassword } = data;
+  const { name, email, password, otp } = data;
 
   const createuser = async (e) => {
     e.preventDefault();
     const reqfield=Object.values(data).some(value => value === ''); //it return true if any field is empty else false
 
-    if(reqfield ===true)
+    if(otp==="")
+    {
+      ShowAlert('Please Verify your email first');
+    }
+    else if(reqfield ===true)
     {
       ShowAlert('Every Input field is Required','danger');
     }
     else{
-      if (password === cpassword) {
+      if (await Checkotp(email,otp)) {
       //API call
       const Login = "http://localhost:5000/api/auth/Createuser";
       const response = await fetch(Login, {
@@ -42,21 +57,61 @@ const Signup = () => {
         ShowAlert('Sign up Succefully','success')
 
       }else if(user.error==="Email already exists"){
-        ShowAlert('Sorry! Someone Already use this Email','info')
+        ShowAlert('Sorry! Someone Already use this Email')
       } 
       else {
-        ShowAlert('invalid details','danger')
+        ShowAlert('invalid details')
 
       }
     } else {
-      ShowAlert('password and confirm password is different','danger')
+      ShowAlert('Verify Your Email')
     }
   }
   };
 
+  const SendEmail=async(e)=>{
+    e.preventDefault();
+    if(email){
+      setisDisabled(true);
+      const ch=await Checkemail(email);
+      if(ch){
+        ShowAlert('Please Wait for OTP')
+        const status=await verifyemail(email);
+        console.log(status);
+        if(status){
+          Setinputotp(true);
+          ShowAlert('Email Send Succefully')
+        }
+        else{
+          Setinputotp(false);
+          setisDisabled(false);
+          ShowAlert("Some Error Occure");
+        }
+      }
+      else{
+         setisDisabled(false);
+         Setinputotp(false);
+         ShowAlert('Someone already used this email');
+      }
+  }
+  else{
+    Setinputotp(false);
+    ShowAlert('Please Enter Email then verify');
+  }
+  }
+
   const onchange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
+  const checkotp=async (e)=>{
+    const status= await Checkotp(email,e.target.value);
+    if(status){
+      Setotpdisable(true);
+      ShowAlert('OTP Correct , You can Login now');
+    }
+    setData({ ...data,[e.target.name]:e.target.value});
+  }
   return (
     <div className="container">
             <div className="Signupform">
@@ -65,11 +120,19 @@ const Signup = () => {
                     <label className="lb" htmlFor="Name">Name</label>
                     <input type="text" id="name" name="name" onChange={onchange} minLength="3"/>
                     <label className="lb" htmlFor="email">Email address</label>
-                    <input type="email" id="email" name="email" onChange={onchange}/>
+                    <input type="email" id="email" name="email" onChange={onchange} disabled={isDisabled}/>
+                    {isDisabled?"": <div onClick={SendEmail} className="emailverify">verify</div> }
+                    {inputotp && 
+                    <div><label className="lb sotp" htmlFor="otp">OTP</label>
+                    <input type="number" id="otp" name="otp" onChange={checkotp} disabled={otpdisable}/>
+                    </div>
+                    }
+                    
                     <label className="lb" htmlFor="password">Password</label>
                     <input type="password" id="password" name="password" onChange={onchange} minLength='5'/>
-                    <label className="lb" htmlFor="cpassword">Confirm Password</label>
-                    <input type="password" id="cpassword" name="cpassword" onChange={onchange} minLength='5'/>
+                    
+                    {/* <label className="lb" htmlFor="cpassword">Confirm Password</label> 
+                    <input type="password" id="cpassword" name="cpassword" onChange={onchange} minLength='5'/> */}
                     <input type="submit" className="btnlogin nav2item" value="Sign Up" />
                 </form>
             <p className="psign">Alredy have an Account? <Link to="/Login" className="pasign">Sign in</Link></p>

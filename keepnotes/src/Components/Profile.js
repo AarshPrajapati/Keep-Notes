@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import alertContext from "../Context/Alert/alertContext";
 
 const Profile = () => {
+  const location=new useLocation();
     const alertcontext=useContext(alertContext);
     const {ShowAlert} =alertcontext;
     const [userinfo,Setuserinfo]=useState({id:"",name:"",email:"",date:""});
@@ -38,7 +39,7 @@ const Profile = () => {
         navigate('/Login');
       }
        // eslint-disable-next-line
-      },[])
+      },[location])
 
       const updateprofile=async(e)=>{
         e.preventDefault();
