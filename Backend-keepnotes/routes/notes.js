@@ -3,6 +3,9 @@ const featchuser = require("../middleware/featchuser");
 const Note = require("../models/Note");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
+const schedule = require('node-schedule');
+
+const moment = require('moment');
 
 
 let success=false;
@@ -39,8 +42,6 @@ router.post(
     }
 
     try {
-      // const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
-      // rmdate=rmdate.toISOString();
       const note = new Note({
         title,
         description,
@@ -53,7 +54,6 @@ router.post(
       res.json({success:success,savenote});
     } catch (error) {
       success=false;
-      //console.error(error.message);
       //status(500)=Server Error Code
       res.status(500).json({ success:success,error: "server Error", message: error.message });
     }
@@ -92,9 +92,9 @@ router.put(
         newNote.tag = tag;
       }
       if (reminder) {
-        // const rmdate= new Date(reminder + 'Z'); //Z append at the at to specify that the date and time are in UTC
         newNote.reminder = reminder;
       }
+      newNote.emailstatus=false;
       //Find the note is exisit or not using id
       let note = await Note.findById(req.params.id); //req.params.id=given id in URL
       if (!note) {
@@ -113,7 +113,6 @@ router.put(
       res.json({success:success, note });
     } catch (error) {
       success=false;
-      //console.error(error.message);
       //status(500)=Server Error Code
       res.status(500).json({ success:success,error: "server Error", message: error.message });
     }
@@ -123,7 +122,6 @@ router.put(
 //Route 3:- Delete User Notes  DELETE:http://localhost:5000/api/notes/deletenote/:id Login required
 router.delete("/deletenote/:id", featchuser, async (req, res) => {
   //Check the errors exits or not
-  const { title, description, tag } = req.body; //destructuring
   try {
     //Check the note with given noteid is exists or not
     let note = await Note.findById(req.params.id); //req.params.id=given id in URL
@@ -138,10 +136,33 @@ router.delete("/deletenote/:id", featchuser, async (req, res) => {
     success=true
     res.json({ success:success, note: note });
   } catch (error) {
-    //console.error(error.message);
+
     //status(500)=Server Error Code
     success=false;
     res.status(500).json({success:success, error: "server Error", message: error.message });
   }
 });
+
+//Delete the when reminder time match currunt time
+const job1 = schedule.scheduleJob('*/1 * * * *',async function(){ //run every 1 minute
+    const currentdate=new Date();
+  
+    //  Find reminders scheduled with current time or less than current time
+     const notes = await Note.find({
+      reminder: { $lte: currentdate }, //date less than or equal to current date
+    });
+    
+    if(notes.length!==0)
+    {
+      try{
+        //  console.log(notes);
+        for(i=0;i<notes.length;i++){
+           const id=notes[i]._id.toString(); //Store id in variable id
+           await Note.findByIdAndDelete(id);
+          } 
+        }catch (error) {
+            console.log('Error in delete note Sachdular');
+          }
+      }
+  });
 module.exports = router;

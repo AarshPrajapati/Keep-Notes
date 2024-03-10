@@ -9,7 +9,7 @@ connectToMongo();
 const express = require('express')
 const app = express()
 app.use(cors())
-const port = 5000
+const port = process.env.PORT
 app.use(bodyParser.json());
 
 app.use(express.json());// req.body doesn't run without this
@@ -19,9 +19,10 @@ app.use('/api/auth',require('./routes/auth'))
 app.use('/api/notes',require('./routes/notes'))
 app.use('/api/email',require('./routes/email'))
 
-// app.get('/', (req, res) => {
-//   res.send('Hello Aarsh!')
-// })
+app.get('/', (req, res) => {
+  res.send('Aarsh Prajapati Here!')
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)

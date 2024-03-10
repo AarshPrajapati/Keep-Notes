@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb://localhost:27017/keepnotes?directConnection=true&readPreference=primary'
+require('dotenv').config({ path: '.env.local' });
+
+// const mongoURI = 'mongodb://localhost:27017/keepnotes?directConnection=true&readPreference=primary'
+const mongoURI=process.env.MONGO_URL;
 
 //Arrow Function
 const connectToMongo=()=>{

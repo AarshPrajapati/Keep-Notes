@@ -7,11 +7,11 @@ const jwt = require("jsonwebtoken");
 const featchuser = require("../middleware/featchuser");
 const Email = require("../models/email");
 const nodemailer = require('nodemailer');
+const { options } = require("./email");
 
 
-const JWT_SECRET = process.env.JWT_SEC;
-//Useing Environment Variable
-// let JWT_SECRET = process.env.JWT_SEC
+const JWT_SECRET = process.env.JWT_SEC; //Useing Environment Variable
+
 let success=false
 
 //Route 1:- For Create User  POST:http://localhost:5000/api/auth/Createuser Login doesn't required
@@ -46,9 +46,9 @@ router.post(
       };
       success=true;
       const Authtoken = jwt.sign(data, JWT_SECRET);
-      //console.log(Authtoken);
+
       res.json({success:success,token:Authtoken});
-      // res.json(user);
+
     } catch (error) {
       success=false;
       if (error.code === 11000) {
@@ -64,11 +64,6 @@ router.post(
       //status(500)=Server Error Code
       res.status(500).json({success:success, error: "server Error", message: error.message });
     }
-    // res.send(req.body);
-    // console.log(req.body);
-    // const user=User(req.body);
-    // user.save();
-    // res.json(req.body);
   }
 );
 
@@ -94,7 +89,7 @@ router.post(
       success=false;
         return res.status(400).json({success:success, Error: "Invalid Details" });
       }
-      //Compare Pass
+      //Compare Password
       const PasswordCompare = await bcrypt.compare(password, user.password);
       if (!PasswordCompare) {
         success=false;
@@ -106,10 +101,10 @@ router.post(
         },
       };
       const Authtoken = jwt.sign(data, JWT_SECRET);
-      //console.log(Authtoken);
+  
       success=true;
       res.json({success:success,token:Authtoken});
-      // res.json(user);
+      
     } catch (error) {
       success=false;
       console.error({success:success,message:error.message});
@@ -125,6 +120,7 @@ router.post("/getuser", featchuser, async (req, res) => {
     const userid = req.user.id;
     const user = await User.findById(userid).select("-password");
     res.json(user);
+   
     success=true;
   } catch (error) {
     console.error(error.message);
@@ -140,11 +136,10 @@ router.put(
   featchuser,
   [
     body("name", "Minumum Lenth of name is 3").isLength({ min: 3 }),
-    body("email", "Enter Valid E-Mail").isEmail(),
   ],
   async (req, res) => {
     //Check the errors exits or not
-    const { name,email } = req.body; //destructuring
+    const { name } = req.body; //destructuring
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       success=false;
@@ -155,9 +150,6 @@ router.put(
       const newdetails = {};
       if (name) {
         newdetails.name = name;
-      }
-      if (email) {
-        newdetails.email = email;
       }
       //Find the User is exisit or not using id
       let user = await User.findById(req.params.id); //req.params.id=given id in URL
@@ -174,7 +166,7 @@ router.put(
       res.json({success:success, user });
     } catch (error) {
       success=false;
-      //console.error(error.message);
+
       //status(500)=Server Error Code
       res.status(500).json({ success:success,error: "server Error", message: error.message });
     }
@@ -208,12 +200,27 @@ router.post('/verifyemail', async (req, res) => {
             otp:otp
         });
     }
+    const emailhtml=`<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+    <div style="margin:50px auto;width:70%;padding:20px 0">
+      <div style="border-bottom:1px solid #eee">
+        <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Keep-Notes</a>
+      </div>
+      <p style="font-size:1.1em">Hi,</p>
+      <p>Thank you for Sign up in Keep-Notes. Use the following OTP to complete your Sign Up procedures.</p>
+      <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
+      <p style="font-size:0.9em;">Regards,<br />Keep-Notes</p>
+      <hr style="border:none;border-top:1px solid #eee" />
+      <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+        <p>Aarsh Prajapati</p>
+      </div>
+    </div>
+  </div>`;
     // Setup email data
     const mailOptions = {
       from:  'Keep-Notes ' + process.env.EMAIL_ADD, //`Keep-Notes  ${process.env.EMAIL_ADD}`,
       to:to,
       subject:'OTP',
-      html:'<h2>Your OTP for Verify Email </h2><h1 style="text-align:center">' + otp +'</h1>'
+      html:emailhtml
     };
     // Send email
     transporter.sendMail(mailOptions, (error, info) => {

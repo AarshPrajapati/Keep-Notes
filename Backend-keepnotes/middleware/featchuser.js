@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 //Useing Environment Variable
 // let JWT_SECRET = process.env.JWT_SEC
-const JWT_SECRET = "Aarsh";
+const JWT_SECRET = process.env.JWT_SEC;
 
 const featchuser=(req,res,next)=>{
     //Get the user from the JWT token and add id to req object

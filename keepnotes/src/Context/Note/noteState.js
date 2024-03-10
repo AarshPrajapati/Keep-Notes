@@ -5,12 +5,11 @@ import alertContext from "../Alert/alertContext";
 const NoteState = (props) => {
   const alert =useContext(alertContext);
   const {ShowAlert}=alert;
-  // const state=[{"name":"AArsh","id":"as"},{"name":"Meet","id":"as"}]
-  // const [use,Setuse]=useState(state);
-  const host = "http://localhost:5000";
-  // const noteintial=[]
-  const [notes, Setnotes] = useState([]);
 
+  const host = process.env.REACT_APP_API_HOST;
+
+
+  const [notes, Setnotes] = useState([]);
   //Get Notes //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
   const featchnote = async () => {
     //API call
@@ -34,6 +33,7 @@ const NoteState = (props) => {
 
   //Add note
   const addnote = async (title, description, tag,reminder) => {
+    reminder = new Date(reminder).toUTCString();  //Convert reminder into UTC Date
     //API call
     const AddNote = host + "/api/notes/addnote";
     try {
@@ -48,6 +48,7 @@ const NoteState = (props) => {
       const add= await response.json();
       if(add.success){
       ShowAlert('Note Created Succefully','success');
+      featchnote();
       }
       else{
       ShowAlert('Some Error Accured','danger');
@@ -76,6 +77,7 @@ const NoteState = (props) => {
       const del= await response.json();
       if(del.success){
       ShowAlert('Note Deleted Succefully','success');
+      featchnote();
       }
       else{
       ShowAlert('Some Error Accured','danger');
@@ -87,17 +89,13 @@ const NoteState = (props) => {
     }
     
   }
-    // console.log("Delete note with the id " + id);
-    // const newnote = notes.filter((noteintial) => {
-    //   return noteintial._id !== id;
-    // });
-    // Setnotes(newnote);
+ 
   };
   //Edit Note
   const editnote =async (title,description,reminder,tag,id) => {
-    //console.log(id,title,tag,description);
+
+    reminder = new Date(reminder).toUTCString(); //Convert reminder into UTC Date
     //API call
-    
     const UpdateNote = host + "/api/notes/updatenote/" +id;
     try {
       const response = await fetch(UpdateNote, {
@@ -111,10 +109,11 @@ const NoteState = (props) => {
       const up= await response.json();
       if(up.success){
       ShowAlert('Note Updated Succefully','success');
+      featchnote();
       }
       else{
       ShowAlert('Some Error Accured','danger');
-
+        
       }
     } catch (error) {
       ShowAlert(error,'danger');

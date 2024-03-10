@@ -2,12 +2,13 @@ import React from "react"; //rafc
 import Notes from "./Notes";
 
 
-const Home = () => {
+const Home = (props) => {
+  
   return (
     <>
       <div className="ynoteparent">
       <h3 className="ynote">Your Notes</h3>
-        <Notes/>
+        <Notes Mode={props.Mode}/>
       </div>
       </>
   );

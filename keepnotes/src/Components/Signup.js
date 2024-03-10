@@ -4,7 +4,7 @@ import alertContext from "../Context/Alert/alertContext";
 import emailContext from "../Context/Email/emailContext";
 import authContext from "../Context/Authentication/AuthContext";
 
-const Signup = () => {
+const Signup = (props) => {
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -19,7 +19,7 @@ const Signup = () => {
   const otpcontext=useContext(emailContext);
   const {Checkotp,Checkemail}=otpcontext;
   const auth=useContext(authContext);
-  const {verifyemail}=auth;
+  const {Signup,verifyemail}=auth;
 
 
   let navigate = useNavigate();
@@ -39,23 +39,12 @@ const Signup = () => {
     }
     else{
       if (await Checkotp(email,otp)) {
-      //API call
-      const Login = "http://localhost:5000/api/auth/Createuser";
-      const response = await fetch(Login, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const user = await response.json(); // parses JSON response into native JavaScript objects
-      //console.log(login);
-      if (user.success) {
-        localStorage.setItem("token", user.token);
-        //console.log(json.authtoken);
-         navigate("/");
-        ShowAlert('Sign up Succefully','success')
 
+      const user=await Signup(name,email,password);
+      if (user.success) {
+         localStorage.setItem("token", user.token);
+         navigate("/");
+         ShowAlert('Sign up Succefully','success')
       }else if(user.error==="Email already exists"){
         ShowAlert('Sorry! Someone Already use this Email')
       } 
@@ -77,7 +66,6 @@ const Signup = () => {
       if(ch){
         ShowAlert('Please Wait for OTP')
         const status=await verifyemail(email);
-        console.log(status);
         if(status){
           Setinputotp(true);
           ShowAlert('Email Send Succefully')
@@ -114,98 +102,28 @@ const Signup = () => {
   }
   return (
     <div className="container">
-            <div className="Signupform">
+            <div className={`Signupform ${props.Mode==='dark'?'dupdateform':''}`}>
                 <h2>Sign up</h2>
                 <form onSubmit={createuser}>
                     <label className="lb" htmlFor="Name">Name</label>
-                    <input type="text" id="name" name="name" onChange={onchange} minLength="3"/>
+                    <input className='forminput' type="text" id="name" name="name" onChange={onchange} minLength="3"/>
                     <label className="lb" htmlFor="email">Email address</label>
-                    <input type="email" id="email" name="email" onChange={onchange} disabled={isDisabled}/>
-                    {isDisabled?"": <div onClick={SendEmail} className="emailverify">verify</div> }
+                    <input className='forminput' type="email" id="email" name="email" onChange={onchange} disabled={isDisabled}/>
+                    {isDisabled?"": <div onClick={SendEmail} className={`emailverify ${props.Mode==='dark'?'abh2':''}`}>verify</div> }
                     {inputotp && 
                     <div><label className="lb sotp" htmlFor="otp">OTP</label>
-                    <input type="number" id="otp" name="otp" onChange={checkotp} disabled={otpdisable}/>
+                    <input className='forminput' type="number" id="otp" name="otp" onChange={checkotp} disabled={otpdisable}/>
                     </div>
                     }
                     
                     <label className="lb" htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" onChange={onchange} minLength='5'/>
+                    <input className='forminput' type="password" id="password" name="password" onChange={onchange} minLength='5'/>
                     
-                    {/* <label className="lb" htmlFor="cpassword">Confirm Password</label> 
-                    <input type="password" id="cpassword" name="cpassword" onChange={onchange} minLength='5'/> */}
-                    <input type="submit" className="btnlogin nav2item" value="Sign Up" />
+                    <input type="submit" className={`btnlogin nav2item ${props.Mode==='dark'?'btngreen':''}`} value="Sign Up" />
                 </form>
-            <p className="psign">Alredy have an Account? <Link to="/Login" className="pasign">Sign in</Link></p>
+            <p className="psign">Alredy have an Account? <Link to="/Login" className={`pasign ${props.Mode==='dark'?'abh2':''}`}>Sign in</Link></p>
             </div>
         </div>
-    // <div className="loginmain">
-    // <div className="signupcontainer">
-    // <h3 className="ltext">Sign up</h3>
-    //   <form className="my-3" onSubmit={createuser}>
-    //     <div className="mb-3">
-    //       <label htmlhtmlFor="name" className="form-label">
-    //         Name
-    //       </label>
-    //       <input
-    //         type="text"
-    //         className="form-control authfield"
-    //         id="name"
-    //         name="name"
-    //         aria-describedby="emailHelp"
-    //         onChange={onchange}
-    //         minLength="3"
-    //       />
-    //     </div>
-    //     <div className="mb-3">
-    //       <label htmlhtmlFor="exampleInputEmail1" className="form-label">
-    //         Email address
-    //       </label>
-    //       <input
-    //         type="email"
-    //         className="form-control authfield"
-    //         id="email"
-    //         name="email"
-    //         aria-describedby="emailHelp"
-    //         onChange={onchange}
-    //       />
-    //     </div>
-    //     <div className="mb-3">
-    //       <label htmlhtmlFor="exampleInputPassword1" className="form-label">
-    //         Password
-    //       </label>
-    //       <input
-    //         type="password"
-    //         className="form-control authfield"
-    //         id="password"
-    //         name="password"
-    //         onChange={onchange}
-    //         minLength='5'
-    //       />
-    //     </div>
-    //     <div className="mb-3">
-    //       <label htmlhtmlFor="exampleInputPassword1" className="form-label">
-    //         Confirm Password
-    //       </label>
-    //       <input
-    //         type="password"
-    //         className="form-control authfield"
-    //         id="cpassword"
-    //         name="cpassword"
-    //         onChange={onchange}
-    //         minLength='5'
-    //       />
-    //     </div>
-    //     <button type="submit" className="btnlogin">
-    //       Sign up
-    //     </button>
-    //     <br></br><br></br>
-    //     <p className="form-label">
-    //         Alerdy have an Account?    
-    //         <Link to="/Login" className="mx-2">Login</Link>
-    //       </p>
-    //   </form>
-    // </div>
-    // </div>
   );
 };
 

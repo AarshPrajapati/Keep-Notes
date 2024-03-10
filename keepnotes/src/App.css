@@ -30,6 +30,10 @@
     font-size: 1.3rem !important;
     padding: 17px 15px !important;
 }
+.darklight{
+    margin-right: 30px;
+    cursor: pointer;
+}
 .nav1item{
     padding: 20px 15px;
     margin-left: 3%;
@@ -47,6 +51,9 @@
     transform: scaleX(0);
     transition: all 0.6s ease;
     transform-origin: left;
+}
+.nav1item.dark::before{
+    border: 2px solid #29a429;
 }
 .nav1item:hover::before{
     transform: scaleX(1);
@@ -100,6 +107,13 @@ a{
     color: black;
     text-decoration: none;
 }
+.btngreen{
+    background-color: #29a429 !important;
+    color: white;
+}
+.btngreen:hover{
+    background-color: #508450 !important;
+}
  /* Login form  */
 
  .container{
@@ -143,6 +157,11 @@ input{
 .input:focus{
     border: 20px solid var(--primary) !important;
 }
+/* .forminput{
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+} */
 .psign{
     text-align: center;
     margin-top: 40px;
@@ -165,7 +184,7 @@ input{
 
 .Signupform{
     width: 460px;
-    height: 600px;
+    height: 550px;
     margin-top: 3%;
     text-align: left;
     padding: 50px 70px 70px 30px;
@@ -210,6 +229,7 @@ input[type=number] {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
  .alert{
     position: absolute;
@@ -219,6 +239,7 @@ input[type=number] {
     border-radius: 100px;
     bottom: 5%;
     padding: 10px 40px;
+    z-index: 100;
  }
 
  /* Create Note  */
@@ -279,6 +300,9 @@ input[type=number] {
     border: 2px solid whitesmoke;
     border-radius: 10px;
 }
+.Mcol{
+    border: 2px solid #4b4b4b;
+}
 
 .title{
     width: 100%;
@@ -300,7 +324,10 @@ input[type=number] {
 .description{
     height: 50px;
     overflow: auto;
+    margin-bottom:15px;
+    word-wrap: break-word;
 }
+
 .funct div{
     display: inline;
     margin-right: 15px;
@@ -331,6 +358,35 @@ input[type=number] {
     padding: 5px;
 }
 
+.ynmode{
+    background-color: #29a429 !important;
+    color: white !important;
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    left: 50%;
+    top: 30%;
+    position: relative;
+    border: 10px solid;
+    border-color: #4681f4 #5a71a2 #4681f4 #5a71a2;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  .darkloader{
+    border-color: #29a429 #3e663e #29a429 #3e663e;
+
+  }
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
 /* Update Note Form  */
 .unote{
     position: absolute;
@@ -351,11 +407,15 @@ input[type=number] {
     width: 40%;
     padding:40px;
 }
+.dupdateform{
+    background-color: #3c3c3c;
+    border: 2px solid whitesmoke;
+}
 .upbtn{
     display: flex;
 }
 .btncancle{
-    margin-top: 20px;
+    margin-top: 20px !important;
     cursor: pointer;
 }
 .imgclose{
@@ -371,6 +431,7 @@ input[type=number] {
 /* footer  */
 footer{
     height: fit-content;
+    margin-top: 50px;
     background-color:rgb(81, 79, 79) ;
     width: 100vw;
     bottom: 0;
@@ -381,6 +442,7 @@ footer{
  .foot h2{
     font-size: 1.5rem;
     margin-bottom: 20px;
+    color: #4681f4;
  }
  .foot{
     display: flex;
@@ -391,7 +453,9 @@ footer{
     cursor: pointer;
 }
 .footitem:hover{
+    font-size: 1.1rem;
     color: #4681f4;
+    transition: all 0.3s ease;
 }
 .foot div{
     width: 15%;
@@ -402,7 +466,7 @@ footer{
 .foot li{
     margin-bottom: 8px;
     text-decoration: none;
-    display: block;
+    display: block; 
 }
 .footlogo{
     margin-left:80px ;
@@ -411,6 +475,16 @@ footer{
     margin-bottom: 22px;
     cursor: pointer;
 }
+.copyright{
+    text-align: center;
+}
+.copyright p{
+    padding-top: 8px;
+}
+.copyright p:hover{
+    color: #4681f4;
+}
+
 
 /* Profile  */
 .profilecontainer{
@@ -420,7 +494,99 @@ footer{
 .profileform{
     width: 50%;
 }
+/* About  */
+.About{
+    height: 100vh;
+    display: flex;
+}
+.About h2{
+    color: #4681f4;
+}
+.ab{
+    border: 2px solid rgb(128, 125, 125);
+    margin-top: 4%;
+    margin-left: 3%;
+    height: 80vh;
+    border-radius: 20px;
+}
+.ab1{
+    width: 65%;
+    padding: 30px ;
+    height: fit-content;
+}
+.ab11{
+    height: 45%;
+}
+.ab1 p{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.ab1 img {
+  margin-right: 10px;
 
+  }
+.ab12{
+    margin-top: 50px;
+}
+
+  .abskill{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .abskill span{
+    width: 20%;
+    margin-left: 25px;
+    margin-top: 5px;
+  }
+  .abskill span:hover{
+    color: blue;
+  }
+.ab2{
+    width: 25%;
+    margin-left:20px;
+
+}
+.ab21{
+    height: 80%;
+    background-image: url(../public/Logo/IMG_1104.jpg);
+    background-size: cover;
+    object-fit:cover ;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-position: 10%;
+}
+.ab22{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.ab22 a{
+    font-weight: 700;
+    width: 50%;
+    text-align: center;
+}
+.ab22 a:hover{
+    color: blue;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+.abh2{
+    color:#29a429 !important
+}
+.ablink{
+    color:white;
+}
+.ablink:hover{
+    color: #29a429 !important;
+}
+.ab22 a img{
+    position: relative;
+    top: 4px;
+    left: 7px;
+}
 /* For tablet  */
 
 @media only screen and (max-width:1130px){
@@ -459,6 +625,19 @@ footer{
         margin-top: 20px;
         color: #5783db;
      }
+     .About{
+        display: block;
+        height: 100%;
+    }
+    .ab{
+        height: auto;
+        border: none;
+        width: 100%;
+    }
+    .ab1{
+        width: 100%;
+        padding: 30px ;
+    }
 }
 @media only screen and (max-width: 880px) {
     /* Navbar css  */
@@ -478,8 +657,13 @@ footer{
         font-size: 0.5rem;
     }
 
+    .darklight{
+        margin-right: 10px;
+        width: 20px;
+    }
     .nav2item{
         margin-right: 7%;
+        margin-top: 4px;
         background-color: #5783db;
         color: white;
         box-shadow: 0;
@@ -489,6 +673,9 @@ footer{
         width: 90px;
         border-radius: 7px;
         border: 0;
+    }
+    .darklight{
+        margin-top: 5px;
     }
 
     .nav1item{
@@ -531,6 +718,10 @@ footer{
         border: 2px solid whitesmoke;
         border-radius: 10px;
     }
+    .row{
+        margin: 10% 3%;
+
+    }
     .updateform{
         width: 90%;
     }
@@ -547,6 +738,22 @@ footer{
     .profileform{
         width: 90%;
     }
+        /* About  */
+        .ab{
+            height: auto;
+        }
+        .ab1{
+            width: 100%;
+            height: 100%;
+            padding: 30px ;
+        }
+        .ab1 p {
+            margin-bottom: 25px;
+        }
+        .ab2{
+            display: none;
+         
+        }
   }
 
 

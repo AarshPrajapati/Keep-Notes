@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import emailContext from '../Context/Email/emailContext'
 
-const Forgetpassword = () => {
+const Forgetpassword = (props) => {
   const navigate=useNavigate();
    
   const context=useContext(emailContext);
@@ -34,15 +34,15 @@ const Forgetpassword = () => {
   return (
     <>
       <div className="container">
-            <div className="loginform fpassform">
+            <div className={`loginform fpassform ${props.Mode==='dark'?'dupdateform':''}`}>
                 <h2>Forget Password</h2>
                 <h5>Enter Email Address to verify your Account</h5>
                 <form onSubmit={SendEmail}>
                     <label className="lb" for="email" >Email Address</label>
-                    <input type="email" name="email" onChange={onchange} disabled={isDisabled}/>
-                    <input type="submit" className="btnlogin nav2item" value="Send OTP" disabled={isDisabled}/>
+                    <input className='forminput' type="email" name="email" onChange={onchange} disabled={isDisabled}/>
+                    <input type="submit" className={`btnlogin nav2item ${props.Mode==='dark'?'btngreen':''}`} value="Send OTP" disabled={isDisabled}/>
                 </form>       
-            <p className="psign">Remember Password? <Link className="pasign" to="/Login">Login</Link></p>
+            <p className="psign">Remember Password? <Link className={`pasign ${props.Mode==='dark'?'abh2':''}`} to="/Login">Login</Link></p>
             </div>
         </div>
     </>

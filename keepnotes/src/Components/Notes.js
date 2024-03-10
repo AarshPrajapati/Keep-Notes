@@ -5,24 +5,34 @@ import Updatenote from './Updatenote';
 import nonotes from './Sorry No Notes.gif'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Notes = () => {
+const Notes = (props) => {
   const location=new useLocation();
-    const context=useContext(NoteContext);
+  const context=useContext(NoteContext);
   const {notes,featchnote,editnote}=context;
-  const navigate=useNavigate();
+  const [loadingstatus,Setloadingstatus]=useState(true);
 
+
+  const navigate=useNavigate();
+  const featch=async()=>{
+    Setrowstyle({opacity:0.7,pointerEvents: 'none'});
+    Setloadingstatus(true);
+    await featchnote();
+    Setrowstyle({opacity:1});
+    Setloadingstatus(false);
+
+  }
   useEffect(() => {
     if(localStorage.getItem('token'))
     {
-      // console.log(localStorage.getItem('token'))
-       featchnote();
+      featch();
+      //  featchnote();
     }
     else{
         navigate('/Login');
     }
    // eslint-disable-next-line
-  },[editnote,location]) //Usestate will again run when editnote function is called
-  //const ref=useRef(); //useref is used for get the clicked card data
+  },[location]) //Usestate will again run when editnote  function is called and location value will change
+  //const ref=useRef(); //useref is used for get the clicked element data
   const [unotes,Setunotes]=useState({Utitle:"",Udescription:"",Ureminder:"",Utag:"",Uid:""}) //state for Update note
   const [unotestyle,Setunotestyle]=useState({opacity:0,display:"none"});
   const [rowstyle,Setrowstyle]=useState(null);
@@ -53,7 +63,7 @@ const Notes = () => {
     {
       Setunotestyle(null);
       Setrowstyle(null);
-    editnote(unotes.Utitle,unotes.Udescription,unotes.Ureminder,unotes.Utag,unotes.Uid);
+      editnote(unotes.Utitle,unotes.Udescription,unotes.Ureminder,unotes.Utag,unotes.Uid);
     //refClose.current.click();
     }
     else
@@ -63,17 +73,18 @@ const Notes = () => {
   }
   return (
     <>
-    <Updatenote  close={close} unotestyle={unotestyle} unotes={unotes} onUchange={onUchange} UpdateNote={UpdateNote}/>
-    {notes.length===0 &&
+    <Updatenote Mode={props.Mode}  close={close} unotestyle={unotestyle} unotes={unotes} onUchange={onUchange} UpdateNote={UpdateNote}/>
+    {loadingstatus?<span className={`loader ${props.Mode==='dark'?'darkloader':''}`}></span>:notes.length===0 &&
     <div className='nonotes'>
         <img src={nonotes} width="20%" alt='Loading'/>
         </div>
     }
+    
     <div className='row' style={rowstyle}>
       
       {notes.map((notes)=>{
         // return notes.title;
-            return <Noteitems key={notes._id} notes={notes} Fillnotes={Fillnotes}/>;
+            return <Noteitems Mode={props.Mode} key={notes._id} notes={notes} Fillnotes={Fillnotes}/>;
           })}
     </div>
     </>

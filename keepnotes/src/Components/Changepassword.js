@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import emailContext from '../Context/Email/emailContext';
 import alertContext from '../Context/Alert/alertContext';
 
-const Changepassword = () => {
+const Changepassword = (props) => {
 
   const location=useLocation();
   const navigate=useNavigate();
@@ -52,17 +52,17 @@ const Changepassword = () => {
   return (
     <>
       <div className="container">
-            <div className="loginform">
+            <div className={`loginform ${props.Mode==='dark'?'dupdateform':''}`}>
                 <h2>New Password</h2>
                 <form onSubmit={updatepass}>
                     <label className="lb" htmlFor="otp">OTP</label>
-                    <input className="input" type="number" name="otp" onChange={onchange} disabled={isDisabled} required/>
+                    <input className="forminput input" type="number" name="otp" onChange={onchange} disabled={isDisabled} required/>
                     <label className="lb" htmlFor="password">New Password</label>
-                    <input type="password" name="password" onChange={onchange} required/>
-                    <input type="submit" className="btnlogin nav2item"  value="Update Password"/>
+                    <input className='forminput' type="password" name="password" onChange={onchange} required/>
+                    <input type="submit" className={`btnlogin nav2item ${props.Mode==='dark'?'btngreen':''}`}  value="Update Password"/>
                 </form>
                 
-            <p className="psign">Remember Password? <a className="pasign" href="/Login.html">Login</a></p>
+            <p className="psign">Remember Password? <a className={`pasign ${props.Mode==='dark'?'abh2':''}`} href="/Login.html">Login</a></p>
             </div>
         </div>
     </>

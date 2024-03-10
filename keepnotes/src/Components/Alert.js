@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import alertContext from "../Context/Alert/alertContext";
 
-const Alert = () => {
+const Alert = (props) => {
   const context=useContext(alertContext);
     const {alert}=context;
 
@@ -9,7 +9,7 @@ const Alert = () => {
     <div>
       {alert && (
         <div className="palert">
-          <div className={`alert alert-${alert.type}`} role="alert">
+          <div className={`alert alert-${alert.type} ${props.Mode==='dark'?'btngreen':''}`} role="alert">
             {alert.msg}
           </div>
         </div>

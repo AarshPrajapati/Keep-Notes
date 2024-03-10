@@ -6,7 +6,7 @@ const AuthState = (props) => {
 
     const alert =useContext(alertContext);
     const {ShowAlert}=alert;
-    const host = "http://localhost:5000";
+    const host = process.env.REACT_APP_API_HOST;
 
     //Verify Email by sending otp
     const verifyemail=async(email)=>{
@@ -24,7 +24,6 @@ const AuthState = (props) => {
           });
           props.SetPrograss(60);
           const send = await response.json(); // parses JSON response into native JavaScript objects
-          console.log(send)
           if(send.success){
             ShowAlert('Please Cheack your Email Address');
             props.SetPrograss(100);
@@ -43,11 +42,78 @@ const AuthState = (props) => {
         }
     
       };
-    
 
+      //Login USer
+      const Login =async(Email,Password)=>{
+        //API call
+        const Login = host + "/api/auth/Login";
+        const response = await fetch(Login, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email:Email,password:Password }),
+        });
+        const login = await response.json(); // parses JSON response into native JavaScript objects
+        
+        if(login.success){
+          return login
+        }
+        else{
+          return false
+        }
+      }
+    
+      //Signup User
+      const Signup=async(name,email,password)=>{
+        //API call
+        const Signup = host + "/api/auth/Createuser";
+        const response = await fetch(Signup, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+        const user = await response.json(); // parses JSON response into native JavaScript objects
+
+        return user
+      }
+
+      //Get USer Details
+      const Getuser=async()=>{
+        //API call
+        const data = host+"/api/auth/getuser";
+        const response = await fetch(data, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token":localStorage.getItem('token')
+          }
+        });
+        const user=await response.json();
+        return user
+      }
+
+      //Update User Details
+      const Updateuser=async(id,Name)=>{
+        //API call
+        const update = host+"/api/auth/Updateuser/"+id;
+            const response = await fetch(update, {
+              method: "PUT", // *GET, POST, PUT, DELETE, etc.
+              headers: {
+                "Content-Type": "application/json",
+                "auth-token":localStorage.getItem('token')
+              },
+              body: JSON.stringify({ name:Name }),
+            });
+            const user=await response.json();
+            return user;
+
+      }
   return (
     <AuthContext.Provider
-    value={{verifyemail}}
+    value={{verifyemail,Login,Signup,Getuser,Updateuser}}
     >
     {props.children}
   </AuthContext.Provider>

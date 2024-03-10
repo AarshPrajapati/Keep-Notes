@@ -3,10 +3,9 @@ import React, { useContext } from "react";
 import alertContext from "../Alert/alertContext";
 
 const EmailState = (props) => {
-    // const SetPrograss = props;
     const alert =useContext(alertContext);
     const {ShowAlert}=alert;
-    const host = "http://localhost:5000";
+    const host = process.env.REACT_APP_API_HOST;
     
     //Send OTP
     const Sendotp=async(sendto)=>{
@@ -24,7 +23,7 @@ const EmailState = (props) => {
       });
       props.SetPrograss(60);
       const send = await response.json(); // parses JSON response into native JavaScript objects
-      console.log(send)
+  
       if(send.success){
         ShowAlert('Please Cheack your Email Address');
         props.SetPrograss(100);
@@ -46,7 +45,7 @@ const EmailState = (props) => {
 
 //Check OTP
   const Checkotp=async(email,otp)=>{
-    // ShowAlert(email);
+
     //API call
     const fetchOtp = host + "/api/email/checkotp";
     try {
@@ -75,7 +74,7 @@ const EmailState = (props) => {
 
 //Check Email
 const Checkemail=async(email)=>{
-  // ShowAlert(email);
+
   //API call
   const fetchemail = host + "/api/email/Checkemail";
   try {
@@ -103,7 +102,7 @@ const Checkemail=async(email)=>{
 
   //Change Password
   const Changepassword=async(email,password,otp)=>{
-    // ShowAlert(email);
+
     //API call
     const updatepassword = host + "/api/email/Changepassword";
     try {

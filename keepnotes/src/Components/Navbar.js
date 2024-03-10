@@ -1,99 +1,47 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
   let location = useLocation();
   const navigate=useNavigate();
   const Logout=()=>{
     localStorage.removeItem('token');
     navigate('/Login');
   }
-  // useEffect(() => {
-  //    console.log(location.pathname);
-  // }, [location]);
   return (
     <div>
     <nav>
-        <div className="navbar">
+        <div className="navbar" id="navbar">
             <div className="navitems1">
-                <Link to="/" className="nav1item logo">Keep-Note</Link>
-                <Link to="/" className={`nav1item navhome ${location.pathname==='/'?"active":""}`} ><img alt="homeicom" src="Icons/home.png" width="20px"/></Link>
-                <Link to="/createnote" className={`nav1item navcreate ${location.pathname==='/createnote'?"active":""}`}><img alt="writeicon" src="Icons/write.png" width="20px"/></Link>
-                <Link to="/about" className={`nav1item navabout ${location.pathname==='/about'?"active":""}`}><img alt="abouticon" src="Icons/About.png" width="20px"/></Link>
+                <Link id="navit" to="/" className={`nav1item logo ${props.Mode==='dark'?"dark":""}`}>Keep-Notes</Link>
+                <Link id="navit" to="/" className={`nav1item navhome ${location.pathname==='/'?"active":""}  ${props.Mode==='dark'?"dark":""}`} ><img alt="homeicom" src={`${props.Mode==='dark'?"Icons/White_home.png":"Icons/home.png"}`} width="20px"/></Link>
+                <Link id="navit" to="/createnote" className={`nav1item navcreate ${location.pathname==='/createnote'?"active":""} ${props.Mode==='dark'?"dark":""}`}><img alt="writeicon" src={`${props.Mode==='dark'?"Icons/White_write.png":"Icons/write.png"}`} width="20px"/></Link>
+                <Link id="navit" to="/about" className={`nav1item navabout ${location.pathname==='/about'?"active":""}  ${props.Mode==='dark'?"dark":""}`}><img alt="abouticon" src={`${props.Mode==='dark'?"Icons/White_About.png":"Icons/About.png"}`} width="20px"/></Link>
             </div>
-            {localStorage.getItem('token')?
+            {/* <div className="navitem2">
+                  <input className="form-check-input" onClick={props.ToggleMode} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
+                  <label className={`form-check-label text-${props.mode==='light'?'dark':'light'} `} htmlFor="flexSwitchCheckDefault">Enable Blue Mode</label>
+                </div> */}
               <div className="navitems2">
-              <Link className="nav2item" to='/Profile' role="button">Profile</Link>
-              <Link className="nav2item" onClick={Logout}>Log out</Link>
-              </div>
+              <img className="darklight" title={`${props.Mode==='dark'?"Turn on light mode":"Turn on dark mode"}`} onClick={props.togglemode} alt="mode" src={`${props.Mode==='dark'?"Icons/sun.png":"Icons/night-mode.png"}`} width="30px"/>
+
+            {localStorage.getItem('token')?
+            <>
+              <Link className={`nav2item ${props.Mode==='dark'?'btngreen':''}`} to='/Profile' role="button">Profile</Link>
+              <Link className={`nav2item ${props.Mode==='dark'?'btngreen':''}`} onClick={Logout}>Log out</Link>
+              </>
             :
-            <div className="navitems2">
-            <Link className="nav2item" to="/Login" role="button">Login</Link>
-            <Link className="nav2item" to="/Signup" role="button">Sign Up</Link>
-            </div>
+            <>
+            <Link className={`nav2item ${props.Mode==='dark'?'btngreen':''}`} to="/Login" role="button">Login</Link>
+            <Link className={`nav2item ${props.Mode==='dark'?'btngreen':''}`} to="/Signup" role="button">Sign Up</Link>
+            </>
             }
+            </div>
+
         </div>
         </nav>
     </div>
-    // <div>
-    //   <nav className="navbar navbar-expand-lg bg-body-tertiary">
-    //     <div className="container-fluid">
-    //       <Link className="navbar-brand" to="/">
-    //         Keepnotes
-    //       </Link>
-    //       <button
-    //         className="navbar-toggler"
-    //         type="button"
-    //         data-bs-toggle="collapse"
-    //         data-bs-target="#navbarSupportedContent"
-    //         aria-controls="navbarSupportedContent"
-    //         aria-expanded="false"
-    //         aria-label="Toggle navigation"
-    //       >
-    //         <span className="navbar-toggler-icon"></span>
-    //       </button>
-    //       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    //         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-    //           <li className="nav-item">
-    //             <Link
-    //               className={`nav-link ${location.pathname==='/'?"active":""}`}
-    //               aria-current="page"
-    //               to="/"
-    //             >
-    //               Home
-    //             </Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link
-    //               className={`nav-link ${location.pathname==='/createnote'?"active":""}`}
-    //               aria-current="page"
-    //               to="/createnote"
-    //             >
-    //               CreateNote
-    //             </Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link className={`nav-link ${location.pathname==='/about'?"active":""}`} to="/about">
-    //               About
-    //             </Link>
-    //           </li>
-             
-    //         </ul>
-    //         <div className="d-flex">{localStorage.getItem('token')?
-    //         <div>
-    //        <Link className="btn btn-primary mx-2" to='/Profile' role="button">Profile</Link>
-    //        <button className="btn btn-primary mx-2" onClick={Logout}>Logout</button>
-    //        </div>:
-    //        <div>
-    //        <Link className="btn btn-primary mx-2" to="/Login" role="button">Login</Link>
-    //        <Link className="btn btn-primary mx-2" to="/Signup" role="button">Sign up</Link>
-    //        </div>
-    //         }
-    //        </div>
-    //       </div>
-    //     </div>
-    //   </nav>
-    // </div>
+    
   );
 };
 

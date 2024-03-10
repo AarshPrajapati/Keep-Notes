@@ -1,30 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import alertContext from "../Context/Alert/alertContext";
+import authContext from "../Context/Authentication/AuthContext";
 
-const Profile = () => {
+const Profile = (props) => {
   const location=new useLocation();
     const alertcontext=useContext(alertContext);
+    const AuthContext=useContext(authContext);
+    const {Getuser,Updateuser}=AuthContext;
     const {ShowAlert} =alertcontext;
     const [userinfo,Setuserinfo]=useState({id:"",name:"",email:"",date:""});
     const navigate=useNavigate();
+
     const getuser= async(e)=>{
-         //API call
-         const data = "http://localhost:5000/api/auth/getuser";
-         const response = await fetch(data, {
-           method: "POST", // *GET, POST, PUT, DELETE, etc.
-           headers: {
-             "Content-Type": "application/json",
-             "auth-token":localStorage.getItem('token')
-           }
-         });
-         const user = await response.json(); // parses JSON response into native JavaScript objects
+
+         const user = await Getuser(); 
          /* Date format you have */
          let date = new Date(user.date);
         //  let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
          /* Date converted to YYYY-MM-DD format */
-         let dateYMD = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-        //  console.log(dateMDY)
+         let day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+         let month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+         let year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+         let dateYMD = `${year}-${month}-${day}`;
          Setuserinfo({id:user._id,name:user.name,email:user.email,date:dateYMD})
 
     }
@@ -33,7 +31,8 @@ const Profile = () => {
       }
     useEffect(() => {
       if(localStorage.getItem('token')){
-        getuser();
+        const featch=async()=>{ await getuser();}
+        featch();
       }
       else{
         navigate('/Login');
@@ -45,26 +44,15 @@ const Profile = () => {
         e.preventDefault();
             //API call
             if(window.confirm("do you really want to Update Your Profile")){
-            const update = "http://localhost:5000/api/auth/Updateuser/" + userinfo.id;
-            const response = await fetch(update, {
-              method: "PUT", // *GET, POST, PUT, DELETE, etc.
-              headers: {
-                "Content-Type": "application/json",
-                "auth-token":localStorage.getItem('token')
-              },
-              body: JSON.stringify({ name:userinfo.name, email:userinfo.email }),
-            });
-            const user = await response.json(); // parses JSON response into native JavaScript objects
-            //console.log(login);
-            
-            if(user.success)
-            {
-                navigate("/");
-                ShowAlert('Profile Updated Succefully','success')
-            }
-            else{
-                ShowAlert('Some Error Occurs , Please Reload the Page','danger')
-            }
+              const user = await Updateuser(userinfo.id,userinfo.name);            
+              if(user.success)
+              {
+                  navigate("/");
+                  ShowAlert('Profile Updated Succefully','success')
+              }
+              else{
+                  ShowAlert('Some Error Occurs , Please Reload the Page','danger')
+              }
         }
    
        }
@@ -74,52 +62,14 @@ const Profile = () => {
         <h2>Profile</h2>
         <form className="profileform" onSubmit={updateprofile}>
                 <label className="lb" htmlFor="Name" >Name</label>
-                <input type="text" name="name" id="name" value={userinfo.name}  onChange={onchange}/>
+                <input className='forminput' type="text" name="name" id="name" value={userinfo.name}  onChange={onchange}/>
                 <label className="lb" htmlFor="email">Email address</label>
-                <input type="email" name="email"  id="email" value={userinfo.email} onChange={onchange}/>
+                <input className='forminput' type="email" name="email"  id="email" value={userinfo.email} disabled/>
                 <label className="lb" htmlFor="date">Joining Date</label>
-                <input type="date" name="date" value={userinfo.date} id="date" disabled/>
-                <input type="submit" className="btnlogin nav2item" value="Update"/>
+                <input className='forminput' type="date" name="date" value={userinfo.date} id="date" disabled/>
+                <input type="submit" className={`btnlogin nav2item ${props.Mode==='dark'?'btngreen':''}`} value="Update"/>
         </form>
     </div>
-      {/* <form className="container" onSubmit={updateprofile}>
-        <div className="mb-3">
-          <label htmlhtmlFor="name" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            className="form-control"
-            id="name"
-            aria-describedby="name"
-            value={userinfo.name}  
-            onChange={onchange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlhtmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            id="email"
-            value={userinfo.email}
-            onChange={onchange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlhtmlFor="date" className="form-label">
-            Joined Date
-          </label>
-          <input disabled type="date" name="date" className="form-control" value={userinfo.date} id="date" />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Update
-        </button>
-      </form> */}
     </>
   );
 };
